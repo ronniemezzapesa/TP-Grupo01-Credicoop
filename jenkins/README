@@ -1,0 +1,5 @@
+docker build -t jenkins:latest .
+docker tag jenkins:latest ronniemezzapesa/tp-credicoop:jenkins-latest
+docker push ronniemezzapesa/tp-credicoop:jenkins-latest
+docker rmi ronniemezzapesa/tp-credicoop:jenkins-latest
+
