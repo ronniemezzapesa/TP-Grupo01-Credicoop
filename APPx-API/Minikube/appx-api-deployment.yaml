@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: appx-api-container
-        image: ddsdeploy  # Cambia esto a la imagen correcta de tu aplicación
+        image: ronniemezzapesa/tp-credicoop:latest
         ports:
         - containerPort: 8080
         env:
