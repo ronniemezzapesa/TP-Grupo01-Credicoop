@@ -19,11 +19,16 @@ spec:
         - containerPort: 8080
         env:
         - name: POSTGRES_URL
-          value: "${POSTGRES_URL}"
+          value: "jdbc:postgresql://192.168.232.133:5432/dbservice"  # Puedes reemplazar esto por un ConfigMap o Secret si lo deseas
         - name: POSTGRES_USER
-          value: "${POSTGRES_USER}"
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
-          value: "${POSTGRES_PASSWORD}"
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_PASSWORD
       imagePullSecrets:
       - name: regcred
-
