@@ -2,7 +2,7 @@ services:
   dbservice:
     image: postgres
     env_file:
-      - .env  
+      - env_variables.env  
     ports:
       - "5432:5432"
     networks:
