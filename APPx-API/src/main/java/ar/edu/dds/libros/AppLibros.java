@@ -8,8 +8,6 @@ import javax.persistence.Persistence;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class AppLibros {
 
@@ -41,45 +39,30 @@ public class AppLibros {
         Map<String, String> env = System.getenv();
         Map<String, Object> configOverrides = new HashMap<>();
 
-        String[] keys = new String[] { 
-            "DATABASE_URL",
-            "javax__persistence__jdbc__driver",
-            "javax__persistence__jdbc__password",
-            "javax__persistence__jdbc__url",
-            "javax__persistence__jdbc__user",
-            "hibernate__hbm2ddl__auto",
-            "hibernate__connection__pool_size", 
-            "hibernate__show_sql" 
-        };
+        // Obtener la URL de la base de datos y las credenciales desde las variables de entorno
+        String url = env.get("POSTGRES_URL");
+        String username = env.get("POSTGRES_USER");
+        String password = env.get("POSTGRES_PASSWORD");
 
-        for (String key : keys) {
-            try {
-                if (key.equals("DATABASE_URL")) {
-                    String value = env.get(key);
-                    URI dbUri = new URI(value);
-                    String username = dbUri.getUserInfo().split(":")[0];
-                    String password = dbUri.getUserInfo().split(":")[1];
-
-                    // Cambiando a la URL de PostgreSQL
-                    value = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-                    configOverrides.put("javax.persistence.jdbc.url", value);
-                    configOverrides.put("javax.persistence.jdbc.user", username);
-                    configOverrides.put("javax.persistence.jdbc.password", password);
-                    configOverrides.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
-                }
-
-                // Reemplazando "__" con "." en las claves
-                String key2 = key.replace("__", ".");
-                if (env.containsKey(key)) {
-                    String value = env.get(key);
-                    configOverrides.put(key2, value);
-                }
-            } catch (URISyntaxException e) {
-                System.err.println("Invalid URI syntax for DATABASE_URL: " + e.getMessage());
-            } catch (Exception ex) {
-                System.out.println("Error configurando " + key);    
-            }
+        if (url != null) {
+            configOverrides.put("javax.persistence.jdbc.url", url);
+        } else {
+            System.err.println("POSTGRES_URL no está configurada.");
         }
+
+        if (username != null) {
+            configOverrides.put("javax.persistence.jdbc.user", username);
+        } else {
+            System.err.println("POSTGRES_USER no está configurada.");
+        }
+
+        if (password != null) {
+            configOverrides.put("javax.persistence.jdbc.password", password);
+        } else {
+            System.err.println("POSTGRES_PASSWORD no está configurada.");
+        }
+
+        configOverrides.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
         
         System.out.println("Config overrides ----------------------");
         for (String key : configOverrides.keySet()) {
