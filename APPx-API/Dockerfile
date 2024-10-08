@@ -5,20 +5,20 @@ FROM maven:3.8.6-openjdk-17 AS build
 WORKDIR /app
 
 # Copia el archivo pom.xml y el código fuente
-COPY pom.xml .
+COPY pom.xml ./    
 COPY src ./src
 
 # Compila la aplicación
 RUN mvn clean package -DskipTests
 
 # Usa una imagen base de Java para ejecutar la aplicación
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jre-slim 
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
 # Copia el archivo JAR de la etapa de compilación
-COPY --from=build /app/target/*.jar appx-api.jar
+COPY --from=build /app/target/javalin-deploy-1.0-SNAPSHOT-jar-with-dependencies.jar appx-api.jar
 
 # Expone el puerto en el que la aplicación se ejecuta
 EXPOSE 8080
