@@ -16,7 +16,7 @@
         <slf4j.version>2.0.6</slf4j.version>
         <jackson.version>2.15.2</jackson.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
-        <postgresql.version>42.2.14</postgresql.version>
+        <postgresql.version>42.6.0</postgresql.version> 
         <mysql.version>8.0.33</mysql.version>
         <junit.version>5.9.3</junit.version>
         <assertj.version>3.23.1</assertj.version>
@@ -46,6 +46,15 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> 
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -53,7 +62,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version> 
+            <version>${postgresql.version}</version> 
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
@@ -79,11 +88,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
