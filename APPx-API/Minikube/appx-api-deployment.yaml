@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: appx-api-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: appx-api
@@ -13,22 +13,34 @@ spec:
         app: appx-api
     spec:
       containers:
-      - name: appx-api-container
+      - name: appx-api
         image: ronniemezzapesa/tp-credicoop:latest
         ports:
         - containerPort: 8080
         env:
-        - name: POSTGRES_URL
-          value: "jdbc:postgresql://192.168.232.133:5432/dbservice"  # Puedes reemplazar esto por un ConfigMap o Secret si lo deseas
+        # Variables desde el ConfigMap
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: POSTGRES_DB
         - name: POSTGRES_USER
           valueFrom:
-            secretKeyRef:
-              name: db-credentials
+            configMapKeyRef:
+              name: db-config
               key: POSTGRES_USER
+        - name: POSTGRES_URL
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: POSTGRES_URL
+
+        # Variables sensibles desde el Secret
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: db-credentials
+              name: db-secret
               key: POSTGRES_PASSWORD
+
       imagePullSecrets:
       - name: regcred

@@ -201,4 +201,6 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,intellij+iml/target/
 #
-secret.sh
+regcred.sh
+db-secret.sh
+configMap.sh
