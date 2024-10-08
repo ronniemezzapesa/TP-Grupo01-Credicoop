@@ -1,15 +1,14 @@
-version: '3.1'
-
 services:
   dbservice:
     image: postgres
-    restart: always
-    env_file:
-      - env_variables.env 
-    volumes:
-      - ./postgresdb:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: g02OqC4A1sRnd2TpF6ONLRT3Qg63EHrd
+      POSTGRES_DB: dbservice
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
