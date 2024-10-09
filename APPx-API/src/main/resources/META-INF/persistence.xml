@@ -10,7 +10,7 @@
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-            <property name="hibernate.connection.url" value="jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}" />
+            <property name="hibernate.connection.url" value="${POSTGRES_URL}" />
             <property name="hibernate.connection.username" value="${POSTGRES_USER}" />
             <property name="hibernate.connection.password" value="${POSTGRES_PASSWORD}" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
