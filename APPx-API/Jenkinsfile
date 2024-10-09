@@ -4,7 +4,7 @@ pipeline {
     environment {
         WORK_DIR = "/var/jenkins_home/${BUILD_ID}"
         MINIKUBE_WORK_DIR = "/home/produccion"
-        DOCKER_IMAGE_NAME = "ronniemezzapesa/appx-api"
+        DOCKER_IMAGE_NAME = "ronniemezzapesa/tp-credicoop"
         DOCKER_IMAGE_TAG = "latest"
     }
 
