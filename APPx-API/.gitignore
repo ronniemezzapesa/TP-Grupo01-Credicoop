@@ -204,3 +204,4 @@ buildNumber.properties
 regcred.sh
 db-secret.sh
 db-config.sh
+.env
