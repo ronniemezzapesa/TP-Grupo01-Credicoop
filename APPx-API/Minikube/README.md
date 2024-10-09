@@ -5,7 +5,7 @@ kubectl logs
 kubectl delete pods --all
 kubectl rollout restart deployment appx-api-deployments
 
-# DESCRIPCION BREVE DE CASA .YAML
+# DESCRIPCION BREVE DE CADA .YAML
 
 appx-api-deployment.yaml:
     Define una réplica del contenedor que ejecuta la imagen ronniemezzapesa/tp-credicoop:latest, exponiendo el puerto 8080. 
