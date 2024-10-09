@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: dbservice
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 5432
       targetPort: 5432
-      nodePort: 30000  # Opcional, se puede omitir para que Kubernetes elija uno
+      nodePort: 30000  
   selector:
     app: dbservice

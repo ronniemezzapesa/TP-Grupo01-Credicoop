@@ -203,4 +203,4 @@ buildNumber.properties
 #
 regcred.sh
 db-secret.sh
-configMap.sh
+db-config.sh
