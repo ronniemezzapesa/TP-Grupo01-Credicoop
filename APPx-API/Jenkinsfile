@@ -4,7 +4,7 @@ pipeline {
     environment {
         WORK_DIR = "/var/jenkins_home/${BUILD_ID}"
         MINIKUBE_WORK_DIR = "/home/produccion"
-        DOCKER_IMAGE_NAME = "ronniemezzapesa/appx-api"
+        DOCKER_IMAGE_NAME = "ronniemezzapesa/tp-credicoop"
         DOCKER_IMAGE_TAG = "latest"
     }
 
@@ -37,7 +37,7 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_3341735a-bf16-4217-8f6c-fdc30f507560 \
+                            -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_c46de8d2-3e4f-454c-a6e5-6208e6eb9477 \
                             -Dsonar.sources=${WORK_DIR}/APPx-API \
                             -Dsonar.projectBaseDir=${WORK_DIR}/APPx-API
                         """
@@ -46,32 +46,52 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Checkout remoto') {
+            agent {
+                label 'minikube'
+            }
             steps {
-                echo 'Building Docker image'
+                script {
+                    echo 'Checking out SCM Jobs Project'
+                    git branch: 'main',
+                        credentialsId: '65f60e0e-fc4d-4b24-a652-b4d214daf024',
+                        url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            agent {
+                label 'minikube'
+            }
+            steps {
+                echo 'Building Docker Image'
                 dir("${WORK_DIR}/APPx-API") {
                     sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Docker Push') {
+            agent { label 'minikube' }
             steps {
-                echo 'Pushing Docker image to Docker Hub'
-                script {
-                    sh "echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
-                    sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                }
+                echo 'Pushing Docker Image'
+                sh """
+                    docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+                    docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+                """
             }
         }
 
         stage('Restart Deployment') {
             agent { label 'minikube' }
             steps {
-                echo 'Restarting Deployment'
-                sh '''
-                    minikube kubectl -- rollout restart deployment appx-api-deployment
-                '''
+                script {
+                    sh """
+                        minikube kubectl rollout restart deployment appx-api-deployment
+                        minikube kubectl rollout status deployment appx-api-deployment
+                    """
+                }
             }
         }
     }
