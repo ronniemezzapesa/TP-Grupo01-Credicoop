@@ -43,6 +43,9 @@ public class AppLibros {
         String url = env.get("POSTGRES_URL");
         String username = env.get("POSTGRES_USER");
         String password = env.get("POSTGRES_PASSWORD");
+        System.out.println("Conectando a la base de datos con la siguiente configuración:");
+        System.out.println("URL: " + url);
+        System.out.println("Usuario: " + username);
 
         if (url != null) {
             configOverrides.put("javax.persistence.jdbc.url", url);
