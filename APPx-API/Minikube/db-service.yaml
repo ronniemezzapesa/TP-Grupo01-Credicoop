@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30000  # Opcional, se puede omitir para que Kubernetes elija uno
+  selector:
+    app: dbservice
