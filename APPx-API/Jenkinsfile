@@ -14,7 +14,7 @@ pipeline {
                 echo 'Checking out SCM-Jobs Project'
                 dir("${WORK_DIR}") {
                     git branch: 'main',
-                        credentialsId: '65f60e0e-fc4d-4b24-a652-b4d214daf024',
+                        credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
                         url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
                 }
             }
@@ -41,7 +41,8 @@ pipeline {
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_6dd67d82-246a-453a-8d44-22a07f971c06 \
                             -Dsonar.sources=${WORK_DIR}/APPx-API/src/main/java \
-                            -Dsonar.projectBaseDir=${WORK_DIR}/APPx-API
+                            -Dsonar.projectBaseDir=. \
+                            -Dsonar.login=squ_fdff6c247706d3d1353719ca05cd622a23e4d384
                         """
                     }
                 }
@@ -56,7 +57,7 @@ pipeline {
                 script {
                     echo 'Checking out SCM Jobs Project'
                     git branch: 'main',
-                        credentialsId: '65f60e0e-fc4d-4b24-a652-b4d214daf024',
+                        credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
                         url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
                 }
             }
