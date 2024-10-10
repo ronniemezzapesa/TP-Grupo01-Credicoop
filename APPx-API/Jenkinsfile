@@ -36,9 +36,11 @@ pipeline {
                     def scannerHome = tool 'SonarScanner 6.2';
                     withSonarQubeEnv('SonarQube') {
                         sh """
+                            echo "Contents of APPx-API directory:"
+                            ls -la ${WORK_DIR}/APPx-API
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_6dd67d82-246a-453a-8d44-22a07f971c06 \
-                            -Dsonar.sources=${WORK_DIR}/APPx-API \
+                            -Dsonar.sources=${WORK_DIR}/APPx-API/src/main/java \
                             -Dsonar.projectBaseDir=${WORK_DIR}/APPx-API
                         """
                     }
