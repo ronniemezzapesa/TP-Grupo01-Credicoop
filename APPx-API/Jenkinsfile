@@ -42,7 +42,7 @@ pipeline {
                             -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_6dd67d82-246a-453a-8d44-22a07f971c06 \
                             -Dsonar.sources=${WORK_DIR}/APPx-API/src/main/java \
                             -Dsonar.projectBaseDir=. \
-                            -Dsonar.login=squ_fdff6c247706d3d1353719ca05cd622a23e4d384
+                            -Dsonar.login=squ_73450ece2bf4747d944671b1353eb6e4a382f1a5
                         """
                     }
                 }
