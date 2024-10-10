@@ -20,7 +20,7 @@ services:
       - "8080:8080" 
       - "50000:50000" 
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - docker-infraestructura_jenkins_home:/var/jenkins_home  
     depends_on:
       - sonarqube
     restart: on-failure
@@ -30,4 +30,4 @@ volumes:
   sonarqube_extensions:
   sonarqube_logs:
   sonarqube_temp:
-  jenkins_home:
+  docker-infraestructura_jenkins_home:  
