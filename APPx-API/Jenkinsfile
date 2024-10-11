@@ -56,20 +56,21 @@ pipeline {
             steps {
                 script {
                     echo 'Checking out SCM Jobs Project'
-                    git branch: 'main',
-                        credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
-                        url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
+                    dir("${MINIKUBE_WORK_DIR}") {
+                        git branch: 'main',
+                            credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
+                            url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
+                    }
                 }
             }
         }
-
         stage('Docker Build') {
             agent {
                 label 'minikube'
             }
             steps {
                 echo 'Building Docker Image'
-                dir("${WORK_DIR}/APPx-API") {
+                dir("${MINIKUBE_WORK_DIR}/TP-Grupo01-Credicoop/APPx-API") {
                     sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
