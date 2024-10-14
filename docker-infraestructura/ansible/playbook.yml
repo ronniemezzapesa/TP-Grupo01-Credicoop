@@ -8,18 +8,24 @@
         name: docker
         state: present
 
+    - name: Iniciar y habilitar el servicio de Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
     - name: Instalar Docker Compose
       get_url:
-        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ ansible_os_family | lower }}-{{ ansible_architecture }}
         dest: /usr/local/bin/docker-compose
         mode: 'u+x'  # Hacer ejecutable
 
     - name: Copiar el archivo docker-compose.yml
       copy:
-        src: /ruta/local/docker-compose.yml  # Ruta donde tienes el archivo en tu máquina local
-        dest: /ruta/remota/docker-compose.yml  # Ruta en la VM de Producción
+        src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta donde tienes el archivo en tu máquina local
+        dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta en la VM de Producción
 
     - name: Levantar los contenedores de la aplicación
       command: docker-compose up -d
       args:
-        chdir: /ruta/remota  # Directorio donde está tu docker-compose.yml
+        chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion  # Directorio donde está tu docker-compose.yml
