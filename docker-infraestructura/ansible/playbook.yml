@@ -39,7 +39,7 @@
 
     - name: Mostrar la versión de Docker Compose
       debug:
-        var: docker_compose_
+        var: docker_compose_version.stdout
 
     - name: Copiar el archivo docker-compose.yml
       copy:
@@ -47,6 +47,6 @@
         dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta en la VM de Producción
 
     - name: Levantar los contenedores de la aplicación
-      command: docker-compose up -d
+      command: /usr/local/bin/docker-compose up -d  
       args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion  # Directorio donde está tu docker-compose.yml
+        chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion  
