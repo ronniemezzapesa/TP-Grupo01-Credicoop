@@ -1,3 +1,5 @@
+version: '3.8' # Puedes omitir esta línea si la estás usando en una versión reciente
+
 services:
   db:
     image: mysql:5.7
@@ -13,7 +15,7 @@ services:
     image: mediawiki:1.39
     environment:
       MEDIAWIKI_DB_TYPE: mysql
-      MEDIAWIKI_DB_HOST: db # Asegúrate de que este valor sea correcto
+      MEDIAWIKI_DB_HOST: db
       MEDIAWIKI_DB_NAME: wikidb
       MEDIAWIKI_DB_USER: wikiuser
       MEDIAWIKI_DB_PASSWORD: wikisecret
@@ -21,3 +23,6 @@ services:
       - "7000:80"
     depends_on:
       - db
+
+volumes:
+  db_data:
