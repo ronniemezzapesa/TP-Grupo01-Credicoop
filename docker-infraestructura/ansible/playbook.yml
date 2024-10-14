@@ -1,0 +1,25 @@
+---
+- name: Despliegue de la aplicación Docker en la VM de Producción
+  hosts: mediawiki
+  become: yes  # Para ejecutar tareas con privilegios de sudo
+  tasks:
+    - name: Instalar Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Instalar Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x'  # Hacer ejecutable
+
+    - name: Copiar el archivo docker-compose.yml
+      copy:
+        src: /ruta/local/docker-compose.yml  # Ruta donde tienes el archivo en tu máquina local
+        dest: /ruta/remota/docker-compose.yml  # Ruta en la VM de Producción
+
+    - name: Levantar los contenedores de la aplicación
+      command: docker-compose up -d
+      args:
+        chdir: /ruta/remota  # Directorio donde está tu docker-compose.yml

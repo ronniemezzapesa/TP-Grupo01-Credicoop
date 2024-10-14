@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  mediawiki:
+    build:
+      context: .  
+      dockerfile: Dockerfile  
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
+    volumes:
+      - mediawiki_data:/var/www/html/images  
+      - ./LocalSettings.php:/var/www/html/LocalSettings.php  
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ${MEDIAWIKI_DB_NAME}
+      MYSQL_USER: ${MEDIAWIKI_DB_USER}
+      MYSQL_PASSWORD: ${MEDIAWIKI_DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql  
+
+volumes:
+  db_data:  
+  mediawiki_data:  
