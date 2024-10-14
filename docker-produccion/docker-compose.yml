@@ -4,10 +4,10 @@ services:
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: rootsecret
-      MYSQL_DATABASE: wikidb
-      MYSQL_USER: wikiuser
-      MYSQL_PASSWORD: wikisecret
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
 
@@ -16,9 +16,9 @@ services:
     environment:
       MEDIAWIKI_DB_TYPE: mysql
       MEDIAWIKI_DB_HOST: db
-      MEDIAWIKI_DB_NAME: wikidb
-      MEDIAWIKI_DB_USER: wikiuser
-      MEDIAWIKI_DB_PASSWORD: wikisecret
+      MEDIAWIKI_DB_NAME: ${MYSQL_DATABASE}
+      MEDIAWIKI_DB_USER: ${MYSQL_USER}
+      MEDIAWIKI_DB_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "7000:80"
     depends_on:
