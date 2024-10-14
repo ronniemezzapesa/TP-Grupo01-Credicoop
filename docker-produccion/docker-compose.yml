@@ -1,4 +1,4 @@
-version: '3.8'  
+version: '3.8'
 
 services:
   db:
@@ -24,7 +24,7 @@ services:
           memory: 1G  # Reservar 1 GB
 
   mediawiki:
-    image: mediawiki:latest
+    build: .  # Construye la imagen a partir del Dockerfile en el directorio actual
     environment:
       MEDIAWIKI_DB_TYPE: ${MEDIAWIKI_DB_TYPE}
       MEDIAWIKI_DB_HOST: ${MEDIAWIKI_DB_HOST}
@@ -40,6 +40,10 @@ services:
       - db
     volumes:
       - ./LocalSettings.php:/var/www/html/LocalSettings.php  # Asegúrate de que la ruta sea correcta
+    command: >
+      /bin/bash -c "
+      php /var/www/html/maintenance/update.php && 
+      apache2-foreground"
 
 volumes:
   db_data:
