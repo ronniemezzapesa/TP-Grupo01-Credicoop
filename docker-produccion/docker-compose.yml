@@ -23,6 +23,9 @@ services:
       - "7000:80"
     depends_on:
       - db
+    volumes:
+      - mediawiki_data:/var/www/html
 
 volumes:
   db_data:
+  mediawiki_data:
