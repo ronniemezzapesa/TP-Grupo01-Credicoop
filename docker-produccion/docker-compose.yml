@@ -15,9 +15,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M  # Limitar la memoria
+          memory: 1G  # Limitar la memoria a 1 GB
         reservations:
-          memory: 256M  # Reservar memoria
+          memory: 512M  # Reservar memoria
 
   mediawiki:
     image: mediawiki:latest
