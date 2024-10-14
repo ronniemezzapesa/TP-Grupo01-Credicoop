@@ -1,24 +1,39 @@
-services:
-  mediawiki:
-    image: mediawiki
-    ports:
-      - "${HOST_PORT}:80"
-    volumes:
-      - ./LocalSettings.php:/var/www/html/LocalSettings.php
-    env_file:
-      - .env
+version: '3.8'  
 
+services:
   db:
     image: mysql:5.7
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql  
+      - db_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 512M  # Limitar la memoria
+        reservations:
+          memory: 256M  # Reservar memoria
+
+  mediawiki:
+    image: mediawiki:latest
+    environment:
+      MEDIAWIKI_DB_TYPE: ${MEDIAWIKI_DB_TYPE}
+      MEDIAWIKI_DB_HOST: ${MEDIAWIKI_DB_HOST}
+      MEDIAWIKI_DB_NAME: ${MEDIAWIKI_DB_NAME}
+      MEDIAWIKI_DB_USER: ${MEDIAWIKI_DB_USER}
+      MEDIAWIKI_DB_PASSWORD: ${MEDIAWIKI_DB_PASSWORD}
+      MEDIAWIKI_SITE_NAME: ${MEDIAWIKI_SITE_NAME}
+      MEDIAWIKI_LANGUAGE_CODE: ${MEDIAWIKI_LANGUAGE_CODE}
+      MEDIAWIKI_DEFAULT_SKIN: ${MEDIAWIKI_DEFAULT_SKIN}
+    ports:
+      - "${HOST_PORT}:80"
+    depends_on:
+      - db
 
 volumes:
-  db_data: {}  
-
+  db_data:
