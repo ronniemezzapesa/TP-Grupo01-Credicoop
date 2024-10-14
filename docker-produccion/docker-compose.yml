@@ -24,6 +24,7 @@ services:
     depends_on:
       - db
     volumes:
+      - /home/produccion/TP-Grupo01-Credicoop/docker-produccion/LocalSettings.php:/var/www/html/LocalSettings.php
       - mediawiki_data:/var/www/html
 
 volumes:
