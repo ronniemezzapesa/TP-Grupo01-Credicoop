@@ -25,5 +25,6 @@ $wgGroupPermissions['*']['edit'] = true; // Permitir edición para todos
 # Definir la ruta del servidor
 $wgServer = "http://192.168.232.133:7000"; 
 
+$wgShowExceptionDetails = true;
 
 
