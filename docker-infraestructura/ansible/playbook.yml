@@ -1,6 +1,8 @@
 - name: Despliegue de MediaWiki
   hosts: mediawiki
   become: yes
+  vars_files:
+    - secrets.yml 
   tasks:
     - name: Ejecutar el playbook de despliegue
       include_tasks: deployment-miwiki.yml
