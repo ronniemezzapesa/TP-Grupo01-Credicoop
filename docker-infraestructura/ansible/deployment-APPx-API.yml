@@ -1,18 +1,11 @@
 ---
 - name: Scale appx-api deployment in Kubernetes
   hosts: minikube
+  become: yes
   tasks:
-    - name: Scale deployment
-      k8s:
-        name: appx-api-deployment
-        namespace: default  
-        state: present
-        definition:
-          apiVersion: apps/v1
-          kind: Deployment
-          spec:
-            replicas: 3  
-      register: result
-
-    - debug:
-        var: result
+    - name: Scale the deployment
+      command: kubectl scale deployment appx-api-deployment --replicas={{ desired_replicas }}
+      args:
+        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube  
+      vars:
+        desired_replicas: 3  

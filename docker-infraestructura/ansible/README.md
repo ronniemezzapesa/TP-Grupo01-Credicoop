@@ -6,3 +6,6 @@ nano vault_pass.txt
 
 Para ejecutar el playbook principal:
 ansible-playbook -i inventory.ini playbook.yml --vault-password-file vault_pass.txt 
+
+Para ejecutar el playboock que escala o desescala a la APPx-API:
+ansible-playbook -i inventory.ini deployment-APPx-API.yml
