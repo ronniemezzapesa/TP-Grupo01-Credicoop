@@ -3,16 +3,16 @@
   hosts: minikube
   become: yes  
   tasks:
-    - name: Escalar el deployment a 3 réplicas
-      shell: kubectl scale --replicas=3 deployment/appx-api-deployment 
-      register: scale_output
-
     - name: Verificar el PATH
       shell: echo $PATH
       register: path_output
       
     - debug:
           var: path_output.stdout
+
+    - name: Escalar el deployment a 3 réplicas
+      shell: kubectl scale --replicas=3 deployment/appx-api-deployment 
+      register: scale_output
 
     - name: Mostrar el resultado del escalado
       debug:
