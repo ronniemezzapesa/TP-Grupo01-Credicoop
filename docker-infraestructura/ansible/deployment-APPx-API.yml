@@ -4,15 +4,14 @@
   become: yes  
   tasks:
     - name: Verificar el PATH
-      shell: echo $PATH
+      command: echo $PATH
       register: path_output
-      
-    - debug:
-          var: path_output.stdout
+
+    - name: Configurar el PATH
+      shell: echo 'export PATH=$PATH:/usr/local/bin' >> /home/infraestructura/.bashrc
 
     - name: Escalar el deployment a 3 réplicas
-      shell: kubectl scale --replicas=3 deployment/appx-api-deployment 
-      register: scale_output
+      command: /usr/local/bin/kubectl scale --replicas=3 deployment/appx-api-deployment
 
     - name: Mostrar el resultado del escalado
       debug:
