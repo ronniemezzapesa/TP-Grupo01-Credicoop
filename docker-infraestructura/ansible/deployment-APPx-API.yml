@@ -1,11 +1,12 @@
-- name: Scale appx-api deployment in Kubernetes
+---
+- name: Escalar un deployment en Kubernetes usando kubectl
   hosts: minikube
-  become: yes
+  become: yes  # Usa esto si necesitas permisos de superusuario
   tasks:
-    - name: Ensure kubectl context is correct
-      command: kubectl config use-context minikube
+    - name: Escalar el deployment a 3 réplicas
+      shell: kubectl scale deployment/appx-api-deployment --replicas=3
+      register: scale_output
 
-    - name: Scale the deployment
-      command: kubectl scale deployment appx-api-deployment --replicas=3
-      args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
+    - name: Mostrar el resultado del escalado
+      debug:
+        var: scale_output.stdout
