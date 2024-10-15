@@ -1,17 +1,23 @@
-- name: Crear un directorio para el backup
-  file:
-    path: /backup/mediawiki
-    state: directory
-    mode: '0755'
+- name: Realizar un backup de MediaWiki
+  hosts: mediawiki
+  become: yes
+  vars_files:
+    - secrets.yml 
+  tasks:
+    - name: Crear un directorio para el backup
+      file:
+        path: /backup/mediawiki
+        state: directory
+        mode: '0755'
 
-- name: Backup de la base de datos
-  command: >
-    mysqldump -u {{ db_user }} -p{{ db_password }} {{ db_name }}
-  register: backup_output
-  args:
-    chdir: /backup/mediawiki
+    - name: Backup de la base de datos
+      command: >
+        docker exec -i docker-produccion-db-1 mysqldump -u {{ db_user }} -p{{ db_password }} {{ db_name }}
+      register: backup_output
+      args:
+        chdir: /backup/mediawiki
 
-- name: Guardar el backup en un archivo
-  copy:
-    content: "{{ backup_output.stdout }}"
-    dest: "/backup/mediawiki/backup_{{ ansible_date_time.date }}.sql"
+    - name: Guardar el backup en un archivo
+      copy:
+        content: "{{ backup_output.stdout }}"
+        dest: "/backup/mediawiki/backup_{{ ansible_date_time.date }}.sql"
