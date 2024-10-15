@@ -1,12 +1,12 @@
 ---
 - name: Escalar un deployment en Kubernetes usando kubectl
   hosts: minikube
-  become: yes  # Usa esto si necesitas permisos de superusuario
+  become: yes  
   tasks:
     - name: Escalar el deployment a 3 réplicas
-      shell: kubectl scale deployment/appx-api-deployment --replicas=3
+      shell: kubectl scale --replicas=3 deployment/appx-api-deployment 
       register: scale_output
-      args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
-      environment:
-        PATH: "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/bin"
+
+    - name: Mostrar el resultado del escalado
+      debug:
+        var: scale_output.stdout
