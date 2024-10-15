@@ -1,13 +1,11 @@
 - name: Scale appx-api deployment in Kubernetes
-  hosts: minikube  
+  hosts: minikube
   become: yes
   tasks:
     - name: Ensure kubectl context is correct
-      command: /usr/local/bin/kubectl config use-context minikube
-      args:
-        chdir: /home/produccion  
+      command: kubectl config use-context minikube
 
     - name: Scale the deployment
-      command: /usr/local/bin/kubectl scale deployment appx-api-deployment --replicas=3
+      command: kubectl scale deployment appx-api-deployment --replicas=3
       args:
         chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
