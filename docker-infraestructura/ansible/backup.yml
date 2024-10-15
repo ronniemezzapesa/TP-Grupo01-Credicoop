@@ -1,8 +1,5 @@
 - name: Realizar un backup de MediaWiki
-  hosts: mediawiki
   become: yes
-  vars_files:
-    - secrets.yml 
   tasks:
     - name: Crear un directorio para el backup
       file:
