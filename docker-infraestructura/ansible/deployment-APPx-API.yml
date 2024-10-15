@@ -1,0 +1,10 @@
+---
+- name: Scale appx-api deployment in Kubernetes
+  hosts: local
+  tasks:
+    - name: Scale deployment
+      k8s:
+        name: appx-api-deployment
+        namespace: default
+        replicas: 3
+        state: present

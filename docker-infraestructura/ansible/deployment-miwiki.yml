@@ -38,8 +38,8 @@
 
 - name: Copiar el archivo docker-compose.yml
   copy:
-    src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta donde tienes el archivo en tu máquina local
-    dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta en la VM de Producción
+    src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml
+    dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml 
 
 - name: Levantar los contenedores de la aplicación
   command: /usr/local/bin/docker-compose up -d  

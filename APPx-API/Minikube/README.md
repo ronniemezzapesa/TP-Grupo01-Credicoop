@@ -1,4 +1,4 @@
-minikube start
+minikube start --driver=docker
 kubectl apply -f .
 kubectl get pods
 kubectl logs 
