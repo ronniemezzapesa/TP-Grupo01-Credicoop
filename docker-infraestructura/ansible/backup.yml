@@ -15,14 +15,3 @@
   copy:
     content: "{{ backup_output.stdout }}"
     dest: "/backup/mediawiki/backup_{{ ansible_date_time.date }}.sql"
-de la base de datos
-      command: >
-        mysqldump -u {{ db_user }} -p{{ db_password }} {{ db_name }}
-      register: backup_output
-      args:
-        chdir: /backup/mediawiki
-
-    - name: Guardar el backup en un archivo
-      copy:
-        content: "{{ backup_output.stdout }}"
-        dest: "/backup/mediawiki/backup_{{ ansible_date_time.date }}.sql"
