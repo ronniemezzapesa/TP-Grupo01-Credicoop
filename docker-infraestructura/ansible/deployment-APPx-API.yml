@@ -1,6 +1,6 @@
 ---
 - name: Scale appx-api deployment in Kubernetes
-  hosts: local
+  hosts: minikube
   tasks:
     - name: Scale deployment
       k8s:
