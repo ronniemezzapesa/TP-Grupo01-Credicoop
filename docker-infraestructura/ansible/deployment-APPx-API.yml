@@ -4,8 +4,6 @@
   become: yes
   tasks:
     - name: Scale the deployment
-      command: "/usr/local/bin/kubectl scale deployment appx-api-deployment --replicas={{ desired_replicas }}"
+      command: kubectl scale deployment appx-api-deployment --replicas=3
       args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
-      vars:
-        desired_replicas: 3
+        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube 
