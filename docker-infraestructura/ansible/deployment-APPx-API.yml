@@ -5,6 +5,14 @@
     - name: Scale deployment
       k8s:
         name: appx-api-deployment
-        namespace: default
-        replicas: 3
+        namespace: default  
         state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          spec:
+            replicas: 3  
+      register: result
+
+    - debug:
+        var: result
