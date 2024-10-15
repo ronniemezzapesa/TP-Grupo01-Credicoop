@@ -1,0 +1,4 @@
+.env
+vault_pass.txt
+inventory.ini
+secrets.yml
