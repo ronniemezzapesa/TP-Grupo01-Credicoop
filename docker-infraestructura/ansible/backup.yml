@@ -1,0 +1,14 @@
+- name: Realizar un backup de MediaWiki
+  hosts: mediawiki
+  become: yes
+  tasks:
+    - name: Crear un directorio para el backup
+      file:
+        path: /backup/mediawiki
+        state: directory
+        mode: '0755'
+
+    - name: Backup de la base de datos
+      command: >
+        mysqldump -u {{ db_user }} -p{{ db_password }} {{ db_name }}
+        > /backup/mediawiki/backup_{{ ansible_date_time.date }}.sql

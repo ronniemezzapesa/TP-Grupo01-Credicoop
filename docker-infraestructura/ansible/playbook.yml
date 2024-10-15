@@ -1,52 +1,9 @@
----
-- name: Despliegue de la aplicación Docker en la VM de Producción
+- name: Despliegue de MediaWiki
   hosts: mediawiki
-  become: yes  # Para ejecutar tareas con privilegios de sudo
+  become: yes
   tasks:
-    - name: Instalar Docker
-      yum:
-        name: docker-ce
-        state: present
+    - name: Ejecutar el playbook de despliegue
+      include_tasks: deployment-miwiki.yml
 
-    - name: Iniciar y habilitar el servicio de Docker
-      systemd:
-        name: docker
-        state: started
-        enabled: yes
-
-    - name: Instalar curl
-      dnf:
-        name: curl
-        state: present
-
-    - name: Obtener el nombre del sistema operativo
-      command: uname -s
-      register: uname_s
-
-    - name: Obtener la arquitectura
-      command: uname -m
-      register: uname_m
-
-    - name: Descargar Docker Compose
-      get_url:
-        url: "https://github.com/docker/compose/releases/latest/download/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
-        dest: /usr/local/bin/docker-compose
-        mode: '0755'
-
-    - name: Verificar la instalación de Docker Compose
-      command: /usr/local/bin/docker-compose --version
-      register: docker_compose_version
-
-    - name: Mostrar la versión de Docker Compose
-      debug:
-        var: docker_compose_version.stdout
-
-    - name: Copiar el archivo docker-compose.yml
-      copy:
-        src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta donde tienes el archivo en tu máquina local
-        dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml  # Ruta en la VM de Producción
-
-    - name: Levantar los contenedores de la aplicación
-      command: /usr/local/bin/docker-compose up -d  
-      args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion  
+    - name: Ejecutar el playbook de backup
+      include_tasks: backup.yml
