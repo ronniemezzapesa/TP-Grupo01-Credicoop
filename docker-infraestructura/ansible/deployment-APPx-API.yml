@@ -3,7 +3,16 @@
   hosts: minikube
   become: yes
   tasks:
+    - name: Ensure kubectl context is correct
+      command: /usr/local/bin/kubectl config use-context minikube
+
+    - name: Check Kubernetes cluster info
+      command: /usr/local/bin/kubectl cluster-info
+
     - name: Scale the deployment
-      command: /usr/local/bin/kubectl scale deployment appx-api-deployment --replicas=3
-      args:
-        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
+      shell: /usr/local/bin/kubectl scale deployment appx-api-deployment --replicas=3
+      register: result
+      ignore_errors: yes
+
+    - debug:
+        var: result
