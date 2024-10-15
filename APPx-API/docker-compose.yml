@@ -17,7 +17,7 @@ services:
   dbservice:
     image: postgres
     env_file:
-      - env_variables.env  
+      - .env 
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}

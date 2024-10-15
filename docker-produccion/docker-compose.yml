@@ -9,7 +9,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/conf.d/my.cnf  # Montar el archivo de configuración
-    mem_limit: 512m  # Limite de memoria directamente en la definición del servicio
+    mem_limit: 1g  # Limite de memoria directamente en la definición del servicio
 
   mediawiki:
     image: mediawiki:1.39
