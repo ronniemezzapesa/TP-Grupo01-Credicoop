@@ -1,18 +1,25 @@
 ---
 - name: Escalar un deployment en Kubernetes usando kubectl
-  hosts: minikube
-  become: yes  
+  hosts: all
   tasks:
+    - name: Gathering Facts
+      setup:
+
     - name: Verificar el PATH
       command: echo $PATH
       register: path_output
 
-    - name: Configurar el PATH
-      shell: echo 'export PATH=$PATH:/usr/local/bin' >> /home/infraestructura/.bashrc
+    - name: Mostrar el PATH
+      debug:
+        var: path_output.stdout
+
+    - name: Agregar kubectl al PATH
+      lineinfile:
+        path: /home/infraestructura/.bashrc
+        line: 'export PATH=$PATH:/usr/local/bin'
+        state: present
 
     - name: Escalar el deployment a 3 réplicas
-      command: /usr/local/bin/kubectl scale --replicas=3 deployment/appx-api-deployment
-
-    - name: Mostrar el resultado del escalado
-      debug:
-        var: scale_output.stdout
+      command: kubectl scale --replicas=3 deployment/appx-api-deployment
+      environment:
+        PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
