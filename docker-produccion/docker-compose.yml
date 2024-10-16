@@ -2,12 +2,18 @@ version: '3.8'
 
 services:
   mediawiki:
-    image: mediawiki:1.39.10
+    image: mediawiki:1.39
     ports:
-      - "7000:80" 
+      - "7000:80"  # Accede a MediaWiki en http://localhost:7000
     volumes:
-      - ./data:/var/www/data 
+      - ./data:/var/www/data  # Carpeta en el host para la persistencia de datos
     environment:
-      - MEDIAWIKI_DB_TYPE=sqlite
-      - MEDIAWIKI_DB_FILE=/var/www/data/miwiki.sqlite
-    restart: always
+      - MEDIAWIKI_DB_TYPE=sqlite  # Configuración de base de datos
+      - MEDIAWIKI_DB_NAME=miwiki    # Nombre de la base de datos
+      - MEDIAWIKI_SITE_NAME=Miwiki   # Nombre de la wiki
+      - MEDIAWIKI_ADMIN_USER=Grupo01  # Nombre de usuario administrador
+      - MEDIAWIKI_ADMIN_PASSWORD=cursocredicoop  # Contraseña de administrador
+      - MEDIAWIKI_ADMIN_EMAIL=rmezzapesa@frba.utn.edu.ar  # Correo del administrador
+
+volumes:
+  data:
