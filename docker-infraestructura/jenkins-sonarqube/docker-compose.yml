@@ -7,27 +7,27 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - docker-infraestructura_sonarqube_data:/opt/sonarqube/data
-      - docker-infraestructura_sonarqube_extensions:/opt/sonarqube/extensions
-      - docker-infraestructura_sonarqube_logs:/opt/sonarqube/logs
-      - docker-infraestructura_sonarqube_temp:/opt/sonarqube/temp
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
     restart: unless-stopped
 
   jenkins:
     image: ronniemezzapesa/tp-credicoop:jenkins-latest
     container_name: jenkins
     ports:
-      - "8080:8080" 
-      - "50000:50000" 
+      - "8080:8080"
+      - "50000:50000"
     volumes:
-      - docker-infraestructura_docker-infraestructura_jenkins_home:/var/jenkins_home  
+      - jenkins_home:/var/jenkins_home  
     depends_on:
       - sonarqube
     restart: on-failure
 
 volumes:
-  docker-infraestructura_sonarqube_data:
-  docker-infraestructura_sonarqube_extensions:
-  docker-infraestructura_sonarqube_logs:
-  docker-infraestructura_sonarqube_temp:
-  docker-infraestructura_docker-infraestructura_jenkins_home:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonarqube_temp:
+  jenkins_home:
