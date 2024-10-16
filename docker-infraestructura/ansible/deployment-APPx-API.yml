@@ -3,9 +3,20 @@
   hosts: minikube
   become: yes
   tasks:
+    - name: Verificar kubectl
+      command: kubectl version
+      register: kubectl_version
+      ignore_errors: yes
+
+    - name: Mostrar versión de kubectl
+      debug:
+        var: kubectl_version.stdout
+
     - name: Escalar el deployment a 3 réplicas
       shell: 'minikube kubectl -- scale --replicas=3 deployment/appx-api-deployment'
       register: scale_output
+      environment:
+        PATH: "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
 
     - name: Mostrar el resultado del escalado
       debug:
