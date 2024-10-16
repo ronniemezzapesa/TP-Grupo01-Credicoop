@@ -8,8 +8,9 @@ services:
     ports:
       - "${HOST_PORT}:80"
     volumes:
-      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+      volumes:
       - mediawiki_data:/var/www/html
+      - ./LocalSettings.php:/var/www/html/LocalSettings.php
     networks:
       - docker-produccion_default 
 
