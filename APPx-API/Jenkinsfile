@@ -14,7 +14,7 @@ pipeline {
                 echo 'Checking out SCM-Jobs Project'
                 dir("${WORK_DIR}") {
                     git branch: 'main',
-                        credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
+                        credentialsId: '434adec4-f1be-45de-8f72-27082b7e1bcb',
                         url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
                 }
             }
@@ -39,10 +39,10 @@ pipeline {
                             echo "Contents of APPx-API directory:"
                             ls -la ${WORK_DIR}/APPx-API
                             ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_6dd67d82-246a-453a-8d44-22a07f971c06 \
+                            -Dsonar.projectKey=ronniemezzapesa_TP-Grupo01-Credicoop_40ba5b44-730b-4615-829a-879d6d2291e9 \
                             -Dsonar.sources=${WORK_DIR}/APPx-API/src/main/java \
                             -Dsonar.projectBaseDir=. \
-                            -Dsonar.login=squ_73450ece2bf4747d944671b1353eb6e4a382f1a5
+                            -Dsonar.login=squ_a235ece3842edf6054cbcab7b115464f8102449d
                         """
                     }
                 }
@@ -58,7 +58,7 @@ pipeline {
                     echo 'Checking out SCM Jobs Project'
                     dir("${MINIKUBE_WORK_DIR}") {
                         git branch: 'main',
-                            credentialsId: '12981d9c-635c-44b8-b0d2-739415ee7e77',
+                            credentialsId: '434adec4-f1be-45de-8f72-27082b7e1bcb',
                             url: 'https://github.com/ronniemezzapesa/TP-Grupo01-Credicoop.git'
                     }
                 }
