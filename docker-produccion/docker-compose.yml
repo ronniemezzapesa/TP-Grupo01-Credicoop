@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:5.7
@@ -12,12 +14,14 @@ services:
       resources:
         limits:
           memory: 512M
+    networks:
+      - docker-produccion_default 
 
   mediawiki:
     image: mediawiki:1.39
     environment:
       MEDIAWIKI_DB_TYPE: ${MEDIAWIKI_DB_TYPE}
-      MEDIAWIKI_DB_HOST: ${MEDIAWIKI_DB_HOST}
+      MEDIAWIKI_DB_HOST: ${MEDIAWIKI_DB_HOST} 
       MEDIAWIKI_DB_NAME: ${MEDIAWIKI_DB_NAME}
       MEDIAWIKI_DB_USER: ${MEDIAWIKI_DB_USER}
       MEDIAWIKI_DB_PASSWORD: ${MEDIAWIKI_DB_PASSWORD}
@@ -25,7 +29,7 @@ services:
       MEDIAWIKI_LANGUAGE_CODE: ${MEDIAWIKI_LANGUAGE_CODE}
       MEDIAWIKI_DEFAULT_SKIN: ${MEDIAWIKI_DEFAULT_SKIN}
     ports:
-      - "${HOST_PORT}:80"  
+      - "${HOST_PORT}:80"
     depends_on:
       - db
     volumes:
@@ -35,6 +39,12 @@ services:
       resources:
         limits:
           memory: 512M
+    networks:
+      - docker-produccion_default 
+
 volumes:
   db_data:
   mediawiki_data:
+
+networks:
+  docker-produccion_default:
