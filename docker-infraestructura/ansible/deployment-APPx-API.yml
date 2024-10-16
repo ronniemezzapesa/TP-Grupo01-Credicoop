@@ -3,8 +3,8 @@
   hosts: minikube
   become: yes
   tasks:
-    - name: Escalar el deployment a 3 réplicas
-      command: 'kubectl scale --replicas=3 deployment/appx-api-deployment'
+    - name: Escalar el deployment a 2 réplicas
+      command: 'kubectl scale --replicas=2 deployment/appx-api-deployment'
       register: scale_output
 
     - name: Mostrar el resultado del escalado
