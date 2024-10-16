@@ -1,4 +1,4 @@
-version: '3.8'  
+version: '3.8'
 
 services:
   sonarqube:
@@ -7,10 +7,10 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - sonarqube_data:/opt/sonarqube/data  
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_temp:/opt/sonarqube/temp
+      - docker-infraestructura_sonarqube_data:/opt/sonarqube/data
+      - docker-infraestructura_sonarqube_extensions:/opt/sonarqube/extensions
+      - docker-infraestructura_sonarqube_logs:/opt/sonarqube/logs
+      - docker-infraestructura_sonarqube_temp:/opt/sonarqube/temp
     restart: unless-stopped
 
   jenkins:
@@ -26,8 +26,8 @@ services:
     restart: on-failure
 
 volumes:
-  sonarqube_data:          
-  sonarqube_extensions:
-  sonarqube_logs:
-  sonarqube_temp:
-  docker-infraestructura_docker-infraestructura_jenkins_home:  
+  docker-infraestructura_sonarqube_data:
+  docker-infraestructura_sonarqube_extensions:
+  docker-infraestructura_sonarqube_logs:
+  docker-infraestructura_sonarqube_temp:
+  docker-infraestructura_docker-infraestructura_jenkins_home:
