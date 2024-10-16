@@ -8,7 +8,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf  # Montar el archivo de configuración
     deploy:
       resources:
         limits:
