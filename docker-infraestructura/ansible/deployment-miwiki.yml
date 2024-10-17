@@ -42,6 +42,6 @@
     dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml 
 
 - name: Levantar los contenedores de la aplicación
-  command: /usr/local/bin/docker-compose up -d  
+  command: /usr/local/bin/docker-compose start  
   args:
     chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion
