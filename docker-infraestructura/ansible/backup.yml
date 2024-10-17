@@ -1,17 +1,29 @@
-- name: Crear un directorio para el backup
-  file:
-    path: /backup/mediawiki
-    state: directory
-    mode: '0755'
+- name: Hacer backup de la base de datos MariaDB
+  hosts: mediawiki
+  tasks:
 
-- name: Backup de la base de datos
-  command: >
-    docker exec -i docker-produccion-db-1 mysqldump -u {{ db_user }} -p{{ db_password }} {{ db_name }}
-  register: backup_output
-  args:
-    chdir: /backup/mediawiki
+    - name: Crear un directorio para el backup
+      file:
+        path: /backup/mediawiki
+        state: directory
+        mode: '0755'
 
-- name: Guardar el backup en un archivo
-  copy:
-    content: "{{ backup_output.stdout }}"
-    dest: "/backup/mediawiki/backup_{{ ansible_date_time.date }}.sql"
+    - name: Hacer un backup de la base de datos
+      docker_container:
+        name: docker-produccion-db-1 
+        volumes:
+          - /backup/mediawiki:/backup  
+        command: >
+          sh -c 'tar czf /backup/wikidb_backup.tar.gz -C /var/lib/mysql wikidb'
+      register: backup_result
+
+    - name: Comprobar si el backup fue exitoso
+      debug:
+        var: backup_result
+
+    - name: Copiar el archivo de backup al host
+      fetch:
+        src: /backup/wikidb_backup.tar.gz
+        dest: /backup/mediawiki/
+        flat: yes
+      when: backup_result is changed
