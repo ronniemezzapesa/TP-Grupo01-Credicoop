@@ -13,7 +13,3 @@ services:
       - MEDIAWIKI_DB_NAME=miwiki
       - MEDIAWIKI_DB_USER=
       - MEDIAWIKI_DB_PASSWORD=
-    command: >
-      sh -c "chown -R root:root /var/www/data && \
-              chown -R root:root /var/www/html && \
-              apache2-foreground"
