@@ -7,9 +7,6 @@ services:
       - "7000:80"
     volumes:
       - ./data:/var/www/data
-      - ./localsettings:/var/www/html
     environment:
       - MEDIAWIKI_DB_TYPE=sqlite
       - MEDIAWIKI_DB_NAME=miwiki
-      - MEDIAWIKI_DB_USER=
-      - MEDIAWIKI_DB_PASSWORD=
