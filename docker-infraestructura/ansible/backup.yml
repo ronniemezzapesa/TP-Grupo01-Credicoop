@@ -18,8 +18,5 @@
     var: backup_result
 
 - name: Copiar el archivo de backup al host
-  fetch:
-    src: /backup/wikidb_backup.tar.gz
-    dest: /backup/mediawiki/
-    flat: yes
+  shell: docker cp docker-produccion-db-1:/backup/wikidb_backup.tar.gz /backup/mediawiki/
   when: backup_result is changed
