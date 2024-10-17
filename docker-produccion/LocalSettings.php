@@ -57,7 +57,7 @@ $wgEmailAuthentication = true;
 
 ## Database settings
 $wgDBtype = 'mysql';
-$wgDBserver = 'db';
+$wgDBserver = 'docker-produccion-db-1';
 $wgDBname = 'wikidb';
 $wgDBuser = 'wikiuser';
 $wgDBpassword = 'cursocredicoop';
