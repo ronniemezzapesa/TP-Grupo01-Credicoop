@@ -41,6 +41,16 @@
     src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml
     dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml 
 
+- name: Detener mediawiki y la DB
+  shell: |
+    docker stop docker-produccion-db-1 docker-produccion-mediawiki-1
+  ignore_errors: yes
+
+- name: Eliminar los contenedores 'docker-produccion-db-1' y 'docker-produccion-mediawiki-1'
+  shell: |
+    docker rm docker-produccion-db-1 docker-produccion-mediawiki-1
+  ignore_errors: yes
+
 - name: Crear y levantar los contenedores de la aplicación
   command: /usr/local/bin/docker-compose up -d  
   args:
