@@ -3,8 +3,13 @@
   hosts: minikube
   become: yes
   tasks:
+    - name: Verificar la ubicación de kubectl
+      shell: which kubectl
+      register: kubectl_location
+    - debug: var=kubectl_location.stdout
+
     - name: Escalar el deployment a 2 réplicas
-      command: 'kubectl scale --replicas=2 deployment/appx-api-deployment'
+      shell: "{{ kubectl_location.stdout }} scale --replicas=2 deployment/appx-api-deployment"
       register: scale_output
 
     - name: Mostrar el resultado del escalado
