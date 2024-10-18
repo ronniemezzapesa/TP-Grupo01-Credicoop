@@ -1,7 +1,6 @@
 ---
 - name: Escalar un deployment en Kubernetes usando kubectl
   hosts: minikube
-  become: yes
   tasks:
     - name: Verificar el usuario conectado
       shell: whoami
