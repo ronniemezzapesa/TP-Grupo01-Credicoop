@@ -24,7 +24,7 @@
     - name: Escalar el deployment a 2 réplicas
       shell: |
         cd /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
-        minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
+        /usr/local/bin/minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
       register: scale_output
 
     - name: Mostrar el resultado del escalado
