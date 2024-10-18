@@ -3,10 +3,28 @@
   hosts: minikube
   become: yes
   tasks:
+    - name: Verificar el usuario conectado
+      shell: whoami
+      register: current_user
+
+    - name: Mostrar el usuario conectado
+      debug:
+        var: current_user.stdout
+
+    - name: Verificar el directorio actual
+      shell: pwd
+      args:
+        chdir: /home/produccion
+      register: current_dir
+
+    - name: Mostrar el directorio actual
+      debug:
+        var: current_dir.stdout
+
     - name: Escalar el deployment a 2 réplicas
       shell: |
         cd /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
-        kubectl scale --replicas=2 deployment/appx-api-deployment
+        minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
       register: scale_output
 
     - name: Mostrar el resultado del escalado
