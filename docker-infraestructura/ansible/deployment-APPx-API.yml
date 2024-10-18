@@ -22,10 +22,10 @@
         var: current_dir.stdout
 
     - name: Escalar el deployment a 2 réplicas
-      shell: |
-        cd /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
-        /usr/local/bin/minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
-      register: scale_output
+      command: /usr/local/bin/minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
+      args:
+        chdir: /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
+      become: yes
 
     - name: Mostrar el resultado del escalado
       debug:
