@@ -1,11 +1,32 @@
-- name: Despliegue de MediaWiki
-  hosts: mediawiki
+---
+- name: Escalar un deployment en Kubernetes usando kubectl
+  hosts: minikube
   become: yes
-  vars_files:
-    - secrets.yml 
   tasks:
-    - name: Ejecutar el playbook de despliegue
-      include_tasks: deployment-miwiki.yml
-      
-    - name: Ejecutar el playbook de backup
-      include_tasks: backup.yml
+    - name: Verificar el usuario conectado
+      shell: whoami
+      register: current_user
+
+    - name: Mostrar el usuario conectado
+      debug:
+        var: current_user.stdout
+
+    - name: Verificar el directorio actual
+      shell: pwd
+      args:
+        chdir: /home/produccion
+      register: current_dir
+
+    - name: Mostrar el directorio actual
+      debug:
+        var: current_dir.stdout
+
+    - name: Escalar el deployment a 2 réplicas
+      shell: |
+        cd /home/produccion/TP-Grupo01-Credicoop/APPx-API/Minikube
+        minikube kubectl -- scale --replicas=2 deployment/appx-api-deployment
+      register: scale_output
+
+    - name: Mostrar el resultado del escalado
+      debug:
+        var: scale_output.stdout
