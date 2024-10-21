@@ -43,12 +43,12 @@
 
 - name: Detener mediawiki y la DB
   shell: |
-    docker stop docker-produccion-db-1 docker-produccion-mediawiki-1
+    docker stop romantic_mcclintock docker-produccion-mediawiki-1
   ignore_errors: yes
 
-- name: Eliminar los contenedores 'docker-produccion-db-1' y 'docker-produccion-mediawiki-1'
+- name: Eliminar los contenedores de la mediawiki t la DB
   shell: |
-    docker rm docker-produccion-db-1 docker-produccion-mediawiki-1
+    docker rm romantic_mcclintock docker-produccion-mediawiki-1
   ignore_errors: yes
 
 - name: Crear y levantar los contenedores de la aplicación
