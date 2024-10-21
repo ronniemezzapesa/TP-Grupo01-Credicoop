@@ -14,7 +14,7 @@ services:
       - MEDIAWIKI_DB_PASSWORD=${MEDIAWIKI_DB_PASSWORD}
     volumes:
       - mediawiki_images:/var/www/html/images
-      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+#      - ./LocalSettings.php:/var/www/html/LocalSettings.php
     depends_on:
       - db
 
