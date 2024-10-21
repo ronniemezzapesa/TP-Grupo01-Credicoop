@@ -1,0 +1,29 @@
+---
+- name: Backup de la base de datos de Mediawiki
+  hosts: mediawiki
+  become: yes
+  vars_files:
+    - secrets.yml 
+  tasks:
+    - name: Crear un directorio para el backup
+      file:
+        path: /backup/mediawiki
+        state: directory
+        mode: '0755'
+
+    - name: Hacer un backup de la base de datos
+      docker_container:
+        name: docker-produccion-db-1 
+        volumes:
+          - /backup/mediawiki:/backup  
+        command: >
+          sh -c 'tar czf /backup/wikidb_backup.tar.gz -C /var/lib/mysql wikidb'
+      register: backup_result
+
+    - name: Comprobar si el backup fue exitoso
+      debug:
+        var: backup_result
+
+    - name: Copiar el archivo de backup al host
+      shell: docker cp docker-produccion-db-1:/backup/wikidb_backup.tar.gz /backup/mediawiki/
+      when: backup_result is changed
