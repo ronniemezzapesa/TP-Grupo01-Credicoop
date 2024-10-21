@@ -42,9 +42,8 @@
     dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml 
 
 - name: Reiniciar contenedores de MediaWiki y la DB
-  docker_container:
-    name: 
-      - docker-produccion-mediawiki-1
-      - docker-produccion-db-1
-    state: restarted
+  shell: docker restart {{ item }}
+  with_items:
+    - docker-produccion-mediawiki-1
+    - docker-produccion-db-1
   ignore_errors: yes
