@@ -24,7 +24,7 @@
 
 - name: Descargar Docker Compose
   get_url:
-    url: "https://github.com/docker/compose/releases/latest/download/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}"
+    url: "https://github.com/docker/compose/releases/latest/download/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }} "
     dest: /usr/local/bin/docker-compose
     mode: '0755'
 
@@ -41,17 +41,10 @@
     src: /home/infraestructura/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml
     dest: /home/produccion/TP-Grupo01-Credicoop/docker-produccion/docker-compose.yml 
 
-- name: Detener mediawiki y la DB
-  shell: |
-    docker stop romantic_mcclintock docker-produccion-mediawiki-1
+- name: Reiniciar contenedores de MediaWiki y la DB
+  docker_container:
+    name: 
+      - docker-produccion-mediawiki-1
+      - docker-produccion-db-1
+    state: restarted
   ignore_errors: yes
-
-- name: Eliminar los contenedores de la mediawiki t la DB
-  shell: |
-    docker rm romantic_mcclintock docker-produccion-mediawiki-1
-  ignore_errors: yes
-
-- name: Crear y levantar los contenedores de la aplicación
-  command: /usr/local/bin/docker-compose up -d  
-  args:
-    chdir: /home/produccion/TP-Grupo01-Credicoop/docker-produccion
