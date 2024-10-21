@@ -17,7 +17,7 @@
         volumes:
           - /backup/mediawiki:/backup  
         command: >
-          sh -c 'tar czf /backup/wikidb_backup.tar.gz -C /var/lib/mysql wikidb'
+           sh -c 'mysqldump -u{{ db_user }} -p{{ db_password }} {{ db_name }} | gzip > /backup/wikidb_backup.sql.gz'
       register: backup_result
 
     - name: Comprobar si el backup fue exitoso
