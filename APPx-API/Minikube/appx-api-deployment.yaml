@@ -38,6 +38,12 @@ spec:
             secretKeyRef:
               name: db-secret 
               key: POSTGRES_PASSWORD
-
+  
+        resources: # necesario para que trabaje con los hpa
+          requests:
+            cpu: 100m # valor minimo de cores
+          limits:
+            cpu: 500m # valor maximo de cores
+  
       imagePullSecrets:
       - name: regcred  
