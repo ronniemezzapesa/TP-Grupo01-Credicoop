@@ -1,14 +1,12 @@
 services:
   jenkins-agent:
-    image: jenkins/agent
+    image: jenkins/inbound-agent
     container_name: jenkins-agent-1
     environment:
-      - JENKINS_AGENT_NAME=VM-produccion
-      - JENKINS_URL=http://192.168.232.132:8080/
-      - JENKINS_SECRET=d6b0e1a6fd0f8ddec92554ad66a861695b992edea22bf10ea97159fdcad475a6
-    networks:
-      - jenkins
-
-networks:
-  jenkins:
-    driver: bridge  
+      JENKINS_AGENT_NAME: agent-1
+      JENKINS_URL: http://192.168.232.132:8080/
+      JENKINS_SECRET: d6b0e1a6fd0f8ddec92554ad66a861695b992edea22bf10ea97159fdcad475a6
+      JENKINS_WORKDIR: "/home/produccion"
+    volumes:
+      - /home/produccion:/home/produccion
+    restart: always
