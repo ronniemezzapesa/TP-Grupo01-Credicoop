@@ -1,3 +1,5 @@
+version: '3.8'  
+services:
   jenkins-agent:
     image: jenkins/agent
     container_name: jenkins-agent-1
@@ -7,3 +9,7 @@
       - JENKINS_SECRET=d6b0e1a6fd0f8ddec92554ad66a861695b992edea22bf10ea97159fdcad475a6
     networks:
       - jenkins
+
+networks:
+  jenkins:
+    driver: bridge  
