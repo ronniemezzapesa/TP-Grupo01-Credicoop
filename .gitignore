@@ -1,3 +1,4 @@
 .env
 vault_pass.txt
 secrets.yml
+agent.ini

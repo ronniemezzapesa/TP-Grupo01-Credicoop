@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  jenkins-agent:
+    image: jenkins/inbound-agent:latest
+    container_name: jenkins-agent
+    environment:
+      - JENKINS_URL=http://192.168.232.132:8080   # URL de tu servidor Jenkins
+      - JENKINS_SECRET=d6b0e1a6fd0f8ddec92554ad66a861695b992edea22bf10ea97159fdcad475a6  # Secret del agente
+      - JENKINS_AGENT_NAME=VM-produccion          # Nombre del agente en Jenkins
+    volumes:
+      - /home/produccion:/home/jenkins/agent      # Directorio de trabajo para el agente
+    restart: always                               # Reinicia el contenedor si falla

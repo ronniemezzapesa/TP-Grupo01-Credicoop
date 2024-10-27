@@ -11,19 +11,26 @@
         state: directory
         mode: '0755'
 
-    - name: Hacer un backup de la base de datos
+    - name: Hacer un backup de la base de datos usando MariaDB Backup
       docker_container:
-        name: docker-produccion-db-1 
+        name: docker-produccion-db-1
         volumes:
-          - /backup/mediawiki:/backup  
+          - /backup/mediawiki:/backup
         command: >
-           sh -c 'mysqldump -u{{ db_user }} -p{{ db_password }} {{ db_name }} | gzip > /backup/wikidb_backup.sql.gz'
+          sh -c 'mariabackup --backup --target-dir=/backup --user={{ db_user }} --password={{ db_password }}'
       register: backup_result
+
+    - name: Preparar el backup
+      docker_container:
+        name: docker-produccion-db-1
+        command: >
+          sh -c 'mariabackup --prepare --target-dir=/backup'
+      when: backup_result is changed
 
     - name: Comprobar si el backup fue exitoso
       debug:
         var: backup_result
 
-    - name: Copiar el archivo de backup al host
-      shell: docker cp docker-produccion-db-1:/backup/wikidb_backup.tar.gz /backup/mediawiki/
+    - name: Copiar los archivos de backup al host
+      shell: docker cp docker-produccion-db-1:/backup/. /backup/mediawiki/
       when: backup_result is changed
