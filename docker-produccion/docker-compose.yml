@@ -1,3 +1,5 @@
+version: '3.7'
+
 services:
 
   mediawiki:
@@ -26,6 +28,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
+      - ./backup:/backup 
 
 volumes:
   mediawiki_images:
