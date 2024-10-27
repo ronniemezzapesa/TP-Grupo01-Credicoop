@@ -1,35 +1,23 @@
+---
 - name: Backup de la base de datos de Mediawiki
   hosts: mediawiki
   become: yes
   vars_files:
     - secrets.yml 
   tasks:
-    - name: Crear un directorio para el backup en el host
+    - name: Crear un directorio para el backup
       file:
         path: /backup/mediawiki
         state: directory
         mode: '0755'
 
-    - name: Hacer un backup de la base de datos usando MariaDB Backup
-      docker_container:
-        name: docker-produccion-db-1
-        volumes:
-          - /backup/mediawiki:/backup
-        command: >
-          sh -c 'mariabackup --backup --target-dir=/backup --user={{ db_user }} --password={{ db_password }}'
+    - name: Hacer un backup de la base de datos desde el host
+      shell: >
+        mysqldump -h {{ db_host }} -P 5432 -u {{ db_user }} -p{{ db_password }} {{ db_name }} | gzip > /backup/mediawiki/wikidb_backup.sql.gz
+      environment:
+        MYSQL_PWD: "{{ db_password }}"
       register: backup_result
-
-    - name: Preparar el backup
-      docker_container:
-        name: docker-produccion-db-1
-        command: >
-          sh -c 'mariabackup --prepare --target-dir=/backup'
-      when: backup_result.changed
 
     - name: Comprobar si el backup fue exitoso
       debug:
         var: backup_result
-
-    - name: Copiar los archivos de backup al host
-      command: docker cp docker-produccion-db-1:/backup/. /backup/mediawiki/
-      when: backup_result.changed
