@@ -1,12 +1,16 @@
 global:
-  scrape_interval: 15s  
+  scrape_interval:     15s 
+  evaluation_interval: 15s 
 
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['192.168.232.132:9050']  
-
-  - job_name: 'jenkins'
+    - targets: ['prometheus:9090']
+    
+  - job_name: 'cadvisor'
     static_configs:
-      - targets: ['192.168.232.132:8080']  
-    metrics_path: '/prometheus'
+    - targets: ['cadvisor:8080']
+
+  - job_name: 'node_exporter'
+    static_configs:
+    - targets: ['node_exporter:9100']    
