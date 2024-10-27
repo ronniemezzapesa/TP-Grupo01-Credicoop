@@ -1,11 +1,10 @@
----
 - name: Backup de la base de datos de Mediawiki
   hosts: mediawiki
   become: yes
   vars_files:
     - secrets.yml 
   tasks:
-    - name: Crear un directorio para el backup
+    - name: Crear un directorio para el backup en el host
       file:
         path: /backup/mediawiki
         state: directory
@@ -25,12 +24,12 @@
         name: docker-produccion-db-1
         command: >
           sh -c 'mariabackup --prepare --target-dir=/backup'
-      when: backup_result is changed
+      when: backup_result.changed
 
     - name: Comprobar si el backup fue exitoso
       debug:
         var: backup_result
 
     - name: Copiar los archivos de backup al host
-      shell: docker cp docker-produccion-db-1:/backup/. /backup/mediawiki/
-      when: backup_result is changed
+      command: docker cp docker-produccion-db-1:/backup/. /backup/mediawiki/
+      when: backup_result.changed
