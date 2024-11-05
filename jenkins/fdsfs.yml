@@ -1,0 +1,9 @@
+[Unit]
+After=network.target docker.service
+[Service]
+User=produccion
+Environment="HOME=/home/produccion"
+ExecStart=/usr/local/bin/minikube start --driver=docker
+RemainAfterExit=true
+[Install]
+WantedBy=multi-user.target
