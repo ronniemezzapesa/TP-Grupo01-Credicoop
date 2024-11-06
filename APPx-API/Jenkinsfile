@@ -6,7 +6,7 @@ pipeline {
         MINIKUBE_WORK_DIR = "/home/produccion"
         DOCKER_IMAGE_NAME = "ronniemezzapesa/tp-credicoop"
         DOCKER_IMAGE_TAG = "latest"
-        REPLICAS = 3
+        REPLICAS = 4
     }
 
     stages {
@@ -94,7 +94,7 @@ pipeline {
                 script {
                     echo "Escalando deployment a ${REPLICAS} replicas"
                     sh """
-                        minikube kubectl scale deployment appx-api-deployment --replicas=${REPLICAS}
+                        minikube kubectl -- scale deployment appx-api-deployment --replicas=${REPLICAS}
                     """
                 }
             }
